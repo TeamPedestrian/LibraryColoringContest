@@ -6,7 +6,7 @@ import javax.swing.JButton;
 public class GabeButton extends JButton {
 
 	public GabeButton() {
-		// TODO Auto-generated constructor stub
+		System.out.println("Gabe_Button");
 	}
 
 	public GabeButton(Icon icon) {
