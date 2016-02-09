@@ -19,6 +19,7 @@ public class EasterEgg {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(new GabeButton());
 		buttonPanel.add(new AntonioButton());
+		buttonPanel.add(new BunButton());
 		easterEggFrame.add(buttonPanel, BorderLayout.SOUTH);
 		easterEggFrame.setSize(500, 500);
 		easterEggFrame.setLocationRelativeTo(null);
