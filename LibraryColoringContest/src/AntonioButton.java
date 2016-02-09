@@ -16,7 +16,7 @@ public class AntonioButton extends JButton {
 			@Override
 			public void actionPerformed(final ActionEvent theEvent) {
 				JOptionPane.showMessageDialog(null, "Antonio is a Senior at UWT majoring in CSS.\n"
-													+ "When not studying he likes to spend time with"
+													+ "When not studying he likes to spend time with "
 													+ "his wife and their Chihuahua \"Tiki\"", "About",JOptionPane.PLAIN_MESSAGE);
 			}
 		});

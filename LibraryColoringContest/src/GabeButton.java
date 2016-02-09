@@ -19,11 +19,13 @@ public class GabeButton extends JButton {
 	private static final long serialVersionUID = 7711521263918528653L;
 
 	public GabeButton() {
-		super("Gabriel Houle");
+		super("Gabriel");
 		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(final ActionEvent theEvent) {
-				JOptionPane.showMessageDialog(null, "I am cool.", "Gabe",JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "I am a Comp Sci Student who likes hiking " + 
+													"and reading science-fiction.",
+													"Gabe", JOptionPane.PLAIN_MESSAGE);
 			}
 		});
 	}
