@@ -20,6 +20,7 @@ public class EasterEgg {
 		buttonPanel.add(new GabeButton());
 		buttonPanel.add(new AntonioButton());
 		buttonPanel.add(new BunButton());
+		buttonPanel.add(new AndyButton());
 		easterEggFrame.add(buttonPanel, BorderLayout.SOUTH);
 		easterEggFrame.setSize(500, 500);
 		easterEggFrame.setLocationRelativeTo(null);
