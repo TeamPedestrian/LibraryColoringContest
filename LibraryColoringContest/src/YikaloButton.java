@@ -1,24 +1,27 @@
 import java.awt.event.ActionEvent;
+imimport java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+
+
 public class YikaloButton extends JButton {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7711521263918528653L;
 
 	public YikaloButton() {
 		super("Yikalo");
 		addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(final ActionEvent theEvent) {
-				JOptionPane.showMessageDialog(null, "Information goes here", "Yikalo",JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "I am Yikalo sinor at UWT in computer science. I m big fun of soccer game" + 
+													"and Video games.",
+													"Yikalo", JOptionPane.PLAIN_MESSAGE);
 			}
 		});
 	}
-
 }
+
+
