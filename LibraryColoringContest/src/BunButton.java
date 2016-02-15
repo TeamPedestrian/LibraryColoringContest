@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class BunButton extends JButton {
 
+	/**Needed serialization*/
 	private static final long serialVersionUID = 7711521263918528653L;
 
 	public BunButton() {
