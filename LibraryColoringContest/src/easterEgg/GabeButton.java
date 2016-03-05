@@ -1,3 +1,4 @@
+package easterEgg;
 /*
  * TCSS360 GabeButton
  */
