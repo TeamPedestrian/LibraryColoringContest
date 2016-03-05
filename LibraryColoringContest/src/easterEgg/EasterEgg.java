@@ -1,3 +1,4 @@
+package easterEgg;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.net.URL;

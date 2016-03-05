@@ -1,3 +1,4 @@
+package easterEgg;
 /*
  *  TCSS 360 Software Engineering
  *  BUN KAK
