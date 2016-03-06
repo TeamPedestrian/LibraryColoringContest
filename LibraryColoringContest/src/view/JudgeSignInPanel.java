@@ -31,7 +31,6 @@ public class JudgeSignInPanel extends JPanel {
 		setSize(800, 800);
 		
 		setup();
-		
 	}
 	
 	private void setup() {
