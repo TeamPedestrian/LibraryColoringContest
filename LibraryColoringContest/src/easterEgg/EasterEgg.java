@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 public class EasterEgg {
 
 	public static void main(String[] args) {
-        URL image = EasterEgg.class.getResource("TeamPedestrian.jpeg");
+        URL image = EasterEgg.class.getResource("/TeamPedestrian.jpeg");
         ImageIcon imageIcon = new ImageIcon(image);
 		JFrame easterEggFrame = new JFrame();
 		easterEggFrame.setTitle("Team Pedestrian");
