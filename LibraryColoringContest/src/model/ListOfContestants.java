@@ -23,7 +23,11 @@ public class ListOfContestants {
 	 * @return True if parameter is added to list and false otherwise.
 	 */
 	public boolean addContestant(Contestant theContest) {
-		boolean result = false;
+		boolean result = verifyEmail(theContest);
+		
+		if (result) {
+			contestants.add(theContest);
+		}
 		
 		return result;
 	}
