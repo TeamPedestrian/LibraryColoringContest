@@ -86,7 +86,6 @@ public class JudgeSignInPanel extends JPanel {
 	private void setup() {
 		
 		createTextInput();
-		setupHomeImage();
 		
 		add(new JLabel("Username"));
 		add(username, BorderLayout.CENTER);
@@ -95,16 +94,7 @@ public class JudgeSignInPanel extends JPanel {
 		add(enter, BorderLayout.SOUTH);
 	}
 	
-	/**
-	 * Sets up the image that is displayed on the top of the panel.
-	 */
-	private void setupHomeImage() {
-		URL image = HomePage.class.getResource("/coloringContest.png");
-		ImageIcon imageIcon = new ImageIcon(image);
-		JPanel imagePanel = new JPanel();
-		imagePanel.add(new JLabel(imageIcon));
-		add(imagePanel, BorderLayout.NORTH);
-	}
+
 	
 	/**
 	 * Creates the text input fields with associated keyListeners for user and password.
@@ -164,7 +154,6 @@ public class JudgeSignInPanel extends JPanel {
 	private void logon() {
 		removeAll();
 		setLayout(new BorderLayout());
-		setupHomeImage();
 		
 		repaint();
 		
@@ -180,7 +169,7 @@ public class JudgeSignInPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent theEvent) {
 			if(verifyUser()) {
-//				logon();
+				logon();
 			}
 		}
 	}

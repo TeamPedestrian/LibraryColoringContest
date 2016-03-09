@@ -22,12 +22,16 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public class HomePage extends JFrame {
+	private JFrame frame;
+	private JPanel center;
+	private JPanel judge;
 	
 	public HomePage() {
-		final JFrame frame = new JFrame("https://Library.gov/Coloring_Contest/home");
+		frame = new JFrame("https://Library.gov/Coloring_Contest/home");
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setSize(952, 500);
+	    frame.setSize(952, 650);
 	    frame.setLocationRelativeTo(null);
+	    frame.setResizable(false);
 		setupFrame(frame);
 		frame.setVisible(true);
 	}
@@ -46,14 +50,14 @@ public class HomePage extends JFrame {
 	}
 	
 	private void setupCenter(JFrame frame) {
-		JPanel center = new JPanel();
+		center = new JPanel();
 		JButton browse = createButton("Browse Design");
 		JButton register = createButton("Register & Upload");
 		JButton judge = createButton("Judge Sign In");
 		center.add(browse);
 		center.add(register);
 		center.add(judge);
-		frame.add(center);
+		frame.add(center, BorderLayout.CENTER);
 	}
 
 	private JButton createButton(String string) {
@@ -63,8 +67,7 @@ public class HomePage extends JFrame {
 	}
 
 	private void setupHome(JFrame frame) {
-		final JButton home = new JButton("Return to Library Home");
-		home.setEnabled(false);
+		JButton home = createButton("Return to Contest Home");
 		JPanel homePanel = new JPanel();
 		homePanel.add(home);
 		frame.add(homePanel, BorderLayout.SOUTH);
@@ -72,13 +75,28 @@ public class HomePage extends JFrame {
 	
 	private class HomeListener implements ActionListener {
 		public void actionPerformed(ActionEvent theEvent) {
+			//System.out.println(theEvent.getActionCommand());
 			switch (theEvent.getActionCommand()) {
 //				case "Browse Design":
 //					BrowseDesign browse = new BrowseDesign();
+					//break;
 //				case "Register & Upload":
 //					Register register = new Register();
+					//break;
+				case "Return to Contest Home":
+					System.out.println("return");
+					frame.getContentPane().remove(judge);
+					setupCenter(frame);
+					//frame.getContentPane().add(center, BorderLayout.CENTER);
+					frame.revalidate();
+					break;
 				case "Judge Sign In":
-					new JudgeSignInPanel();
+					System.out.println("judge");
+					judge = new JudgeSignInPanel();
+					frame.getContentPane().remove(center);
+				    frame.getContentPane().add(judge, BorderLayout.CENTER);
+					frame.revalidate();
+					break;
 			}
 		}
 	}
