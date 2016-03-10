@@ -25,8 +25,12 @@ public class Judge {
 		boolean result = false;
 		
 		if (theUser.equals(userName) && thePass.equals(password)) {
+			System.out.println("hello");
 			result = true;
 		}
+		
+		System.out.println(result + " correctUser: " + userName + " CorrectPassword: " +
+							password + " inputUser: " + theUser + " inputpassword: " + thePass);
 		
 		return result;
 	}

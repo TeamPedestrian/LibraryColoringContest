@@ -84,14 +84,11 @@ public class HomePage extends JFrame {
 //					Register register = new Register();
 					//break;
 				case "Return to Contest Home":
-					System.out.println("return");
 					frame.getContentPane().remove(judge);
 					setupCenter(frame);
-					//frame.getContentPane().add(center, BorderLayout.CENTER);
 					frame.revalidate();
 					break;
 				case "Judge Sign In":
-					System.out.println("judge");
 					judge = new JudgeSignInPanel();
 					frame.getContentPane().remove(center);
 				    frame.getContentPane().add(judge, BorderLayout.CENTER);

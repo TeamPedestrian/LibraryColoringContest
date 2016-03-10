@@ -5,6 +5,8 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -52,6 +54,21 @@ public class JudgeSignInPanel extends JPanel {
 	Judge myJudge = null;
 	
 	/**
+	 * Stores the panel along the bottom of the judge sign in.
+	 */
+	JPanel southPanel;
+	
+	/**
+	 * Stores the panel in the center of the judge sign in.
+	 */
+	JPanel centerPanel;
+	
+	/**
+	 * Stores the panel along the top of the judge sign in.
+	 */
+	JPanel northPanel;
+	
+	/**
 	 * String that stores the user name.
 	 */
 	String userString = "";
@@ -63,6 +80,7 @@ public class JudgeSignInPanel extends JPanel {
 	
 	public JudgeSignInPanel() {
 		super();
+		setLayout(new BorderLayout());
 		listOfJudges = loadJudges();
 		setSize(800, 800);
 		
@@ -77,6 +95,10 @@ public class JudgeSignInPanel extends JPanel {
 	public List<Judge> loadJudges() {
 		ArrayList<Judge> result = new ArrayList<>();
 		
+		Judge bob = new Judge("bob1", "1234");
+		
+		result.add(bob);
+		
 		return result;
 	}
 	
@@ -85,13 +107,22 @@ public class JudgeSignInPanel extends JPanel {
 	 */
 	private void setup() {
 		
+		southPanel = new JPanel();
+		northPanel = new JPanel();
+		centerPanel = new JPanel(new GridBagLayout());
+
 		createTextInput();
 		
-		add(new JLabel("Username"));
-		add(username, BorderLayout.CENTER);
-		add(new JLabel("Password"));
-		add(password, BorderLayout.CENTER);
-		add(enter, BorderLayout.SOUTH);
+		centerPanel.add(new JLabel("Username"));
+		centerPanel.add(username);
+		centerPanel.add(new JLabel("Password"));
+		centerPanel.add(password);
+		centerPanel.add(enter);
+		centerPanel.add(new JLabel("Invalid Login!"));
+		
+		add(northPanel, BorderLayout.NORTH);
+		add(centerPanel, BorderLayout.CENTER);
+		add(southPanel, BorderLayout.SOUTH);
 	}
 	
 
@@ -135,7 +166,7 @@ public class JudgeSignInPanel extends JPanel {
 	 * @return True if the correct login information, false otherwise.
 	 */
 	private boolean verifyUser() {
-		boolean result = true;//set this to false in order to actually verify.
+		boolean result = false;//set this to false in order to actually verify.
 		
 		for (int i = 0; i < listOfJudges.size(); i++) {
 			if (listOfJudges.get(i).logOn(userString, passString)) {
