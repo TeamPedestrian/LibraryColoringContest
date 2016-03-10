@@ -8,19 +8,21 @@ import java.io.File;
 
 public class Contestant {
 
-	private final String contFName;
+	private String contFName;
 	
-	private final String contLName;
+	private String contLName;
 	
-	private final String contMInit;
+	private String contMInit;
 	
-	private final int[] contAgeRange = new int[2];
+	private int[] contAgeRange = new int[2];
 	
-	private final String contPhoneNo;
+	private String contPhoneNo;
 	
-	private final String contEmail;
+	private String contEmail;
 	
 	private File contImage;
+	
+	private int imgRating;
 	
 	public Contestant(String fName, String lName, String mInit, int[] ageRange,
 						String phoneNo, String email) {
@@ -31,7 +33,42 @@ public class Contestant {
 		contAgeRange[1] = ageRange[1];
 		contPhoneNo = phoneNo;
 		contEmail = email;
+		imgRating = -1;
 		
+	}
+	
+	public Contestant() {
+		contFName = null;
+		contLName = null;
+		contMInit = null;
+		contPhoneNo = null;
+		contEmail = null;
+		imgRating = -1;
+	}
+	
+	public void setFName(String fName) {
+		contFName = fName;
+	}
+	
+	public void setLName(String lName) {
+		contLName = lName;
+	}
+	
+	public void setMInit(String mInit) {
+		contMInit = mInit;
+	}
+	
+	public void setPhoneNo (String phoneNo) {
+		contPhoneNo = phoneNo;
+	}
+	
+	public void setEmail(String email) {
+		contEmail = email;
+	}
+	
+	public void setAgeRange(int[] aR) {
+		contAgeRange[0] = aR[0];
+		contAgeRange[1] = aR[1];
 	}
 	
 	public String getEmail() {
@@ -44,6 +81,14 @@ public class Contestant {
 	
 	public File getImage() {
 		return contImage;
+	}
+	
+	public void rateImage(int rating) {
+		imgRating = rating;
+	}
+	
+	public int getRating() {
+		return imgRating;
 	}
 	
 	public String getName() {
