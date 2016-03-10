@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import model.Contestant;
 import model.Judge;
 
 /**
@@ -49,6 +50,11 @@ public class JudgeSignInPanel extends JPanel {
 	private JButton enter;
 	
 	/**
+	 * Used to display next image.
+	 */
+	private JButton next;
+	
+	/**
 	 * Used to indicate that invalid login info was submitted.
 	 */
 	private JLabel invalid;
@@ -57,6 +63,18 @@ public class JudgeSignInPanel extends JPanel {
 	 * The currently logged in judge.
 	 */
 	private Judge myJudge = null;
+	
+	/**
+	 * Holds all current contestants to be judged.
+	 */
+	private ArrayList<Contestant> myContestants;
+	
+	/**
+	 * Holds the current index being displayed.
+	 */
+	private int currentContestantIndex;
+	
+	private Contestant currentContestant;
 	
 	/**
 	 * Stores the panel along the bottom of the judge sign in.
@@ -128,7 +146,10 @@ public class JudgeSignInPanel extends JPanel {
 	 * assign them to the judges.
 	 */
 	private void loadContestants() {
+		Contestant test = new Contestant();
+		test.setImgURL("/libraryIcon.png");
 		
+		listOfJudges.get(0).contestantList.add(test);
 	}
 	
 	/**
@@ -223,31 +244,56 @@ public class JudgeSignInPanel extends JPanel {
 	private void logon() {
 		removeAll();
 		setLayout(new BorderLayout());
-		displayContestants();
+		invalid.setVisible(false);
+		myContestants = myJudge.contestantList;
+		displayContestantsFields();
 		repaint();
 	}
 	
-	private void displayContestants() {
+	private void displayNextContestant() {
+		if (currentContestantIndex < myContestants.size()) {
+			currentContestant  = myContestants.get(currentContestantIndex);
+			URL icon = HomePage.class.getResource(currentContestant.getImg());
+			ImageIcon frameIcon = new ImageIcon(icon);
+			image.setIcon(frameIcon);
+			currentContestantIndex++;
+		} else {
+			currentContestantIndex = 0;
+		}
+		
+		
+	}
+	
+	private void displayContestantsFields() {
 		image = new JLabel();
-		URL icon = HomePage.class.getResource("/libraryIcon.png");
-		ImageIcon frameIcon = new ImageIcon(icon);
-		image.setIcon(frameIcon);
+		
+		currentContestantIndex = 0;
+//		URL icon = HomePage.class.getResource("/libraryIcon.png");
+//		ImageIcon frameIcon = new ImageIcon(icon);
+//		image.setIcon(frameIcon);
+		
+		next = new JButton("Next");
+		next.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent theEvent) {
+				displayNextContestant();
+			}
+		});
 		
 		ratingLabel = new JLabel("Rating: ");
 		ratingLabel.setForeground(Color.GRAY);
 		
 		rating = new JTextField(2);
 		
-		northPanel = new JPanel();
-		southPanel = new JPanel();
+
 		centerPanel = new JPanel();
-		southPanel = new JPanel();
 		southPanel.setBackground(Color.BLACK);
 		northPanel = new JPanel();
 		northPanel.setBackground(Color.BLACK);
 		centerPanel = new JPanel(new GridBagLayout());
 		centerPanel.setBackground(Color.BLACK);
 		
+		southPanel.add(next);
 		northPanel.add(image);
 		centerPanel.add(ratingLabel);
 		centerPanel.add(rating);
@@ -256,6 +302,7 @@ public class JudgeSignInPanel extends JPanel {
 		add(centerPanel, BorderLayout.CENTER);
 		add(southPanel, BorderLayout.SOUTH);
 		
+		displayNextContestant();
 		revalidate();
 	}
 	
