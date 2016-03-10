@@ -149,9 +149,12 @@ public class JudgeSignInPanel extends JPanel {
 
 		createTextInput();
 		
-		centerPanel.add(new JLabel("Username"));
+		@SuppressWarnings("unused")
+		GhostText userNameGhost = new GhostText(username, "User Name");
+
 		centerPanel.add(username);
-		centerPanel.add(new JLabel("Password"));
+		@SuppressWarnings("unused")
+		GhostText passGhost = new GhostText(password, "Password");
 		centerPanel.add(password);
 		centerPanel.add(enter);
 		
@@ -231,6 +234,7 @@ public class JudgeSignInPanel extends JPanel {
 		image.setIcon(frameIcon);
 		
 		ratingLabel = new JLabel("Rating: ");
+		ratingLabel.setForeground(Color.GRAY);
 		
 		rating = new JTextField(2);
 		
