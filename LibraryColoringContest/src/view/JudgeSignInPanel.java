@@ -5,7 +5,7 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,52 +36,73 @@ public class JudgeSignInPanel extends JPanel {
 	/**
 	 * Used for user name input.
 	 */
-	JTextField username;
+	private JTextField username;
 	
 	/**
 	 * Used for password input.
 	 */
-	JTextField password;
+	private JTextField password;
 	
 	/**
 	 * Enter Button.
 	 */
-	JButton enter;
+	private JButton enter;
+	
+	/**
+	 * Used to indicate that invalid login info was submitted.
+	 */
+	private JLabel invalid;
 	
 	/**
 	 * The currently logged in judge.
 	 */
-	Judge myJudge = null;
+	private Judge myJudge = null;
 	
 	/**
 	 * Stores the panel along the bottom of the judge sign in.
 	 */
-	JPanel southPanel;
+	private JPanel southPanel;
 	
 	/**
 	 * Stores the panel in the center of the judge sign in.
 	 */
-	JPanel centerPanel;
+	private JPanel centerPanel;
 	
 	/**
 	 * Stores the panel along the top of the judge sign in.
 	 */
-	JPanel northPanel;
+	private JPanel northPanel;
 	
 	/**
 	 * String that stores the user name.
 	 */
-	String userString = "";
+	private String userString = "";
 	
 	/**
 	 * String that stores the password.
 	 */
-	String passString = "";
+	private String passString = "";
+	
+	/**
+	 * Displays the image that has been submitted.
+	 */
+	private JLabel image;
+	
+	/**
+	 * Displays the label for the rating input field.
+	 */
+	private JLabel ratingLabel;
+	
+	/**
+	 * The text field where the judge will input a rating for the image.
+	 */
+	private JTextField rating;
 	
 	public JudgeSignInPanel() {
 		super();
 		setLayout(new BorderLayout());
 		listOfJudges = loadJudges();
+		loadContestants();
 		setSize(800, 800);
 		
 		setup();
@@ -92,7 +113,7 @@ public class JudgeSignInPanel extends JPanel {
 	 * 
 	 * @return A List containing all judges.
 	 */
-	public List<Judge> loadJudges() {
+	private List<Judge> loadJudges() {
 		ArrayList<Judge> result = new ArrayList<>();
 		
 		Judge bob = new Judge("bob1", "1234");
@@ -103,6 +124,14 @@ public class JudgeSignInPanel extends JPanel {
 	}
 	
 	/**
+	 * This method will load the contestant info from a file and 
+	 * assign them to the judges.
+	 */
+	private void loadContestants() {
+		
+	}
+	
+	/**
 	 * Runs various setup methods and adds button components to the panel.
 	 */
 	private void setup() {
@@ -110,6 +139,10 @@ public class JudgeSignInPanel extends JPanel {
 		southPanel = new JPanel();
 		northPanel = new JPanel();
 		centerPanel = new JPanel(new GridBagLayout());
+		
+		invalid = new JLabel("");
+		invalid.setForeground(Color.RED);
+		southPanel.add(invalid);
 
 		createTextInput();
 		
@@ -118,14 +151,11 @@ public class JudgeSignInPanel extends JPanel {
 		centerPanel.add(new JLabel("Password"));
 		centerPanel.add(password);
 		centerPanel.add(enter);
-		centerPanel.add(new JLabel("Invalid Login!"));
 		
 		add(northPanel, BorderLayout.NORTH);
 		add(centerPanel, BorderLayout.CENTER);
 		add(southPanel, BorderLayout.SOUTH);
 	}
-	
-
 	
 	/**
 	 * Creates the text input fields with associated keyListeners for user and password.
@@ -137,27 +167,29 @@ public class JudgeSignInPanel extends JPanel {
 		username.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(final KeyEvent theEvent) {
-				userString = username.getText() + theEvent.getKeyChar();
-//				System.out.println(userString);
+				if (theEvent.getKeyCode() != KeyEvent.VK_ENTER) {
+					userString = username.getText() + theEvent.getKeyChar();
+				}
 			}
 		});
 		
-		username.addActionListener(new JudgeListener());
+		username.addActionListener(new JudgeLoginListener());
 		
 		password = new JTextField(20);
 		
 		password.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(final KeyEvent theEvent) {
-				passString = password.getText() + theEvent.getKeyChar();
-//				System.out.println(passString);
+				if (theEvent.getKeyCode() != KeyEvent.VK_ENTER) {
+					passString = password.getText() + theEvent.getKeyChar();
+				}
 			}
 		});
 		
-		password.addActionListener(new JudgeListener());
+		password.addActionListener(new JudgeLoginListener());
 		
 		enter = new JButton("Enter");
-		enter.addActionListener(new JudgeListener());
+		enter.addActionListener(new JudgeLoginListener());
 	}
 	
 	/**
@@ -185,22 +217,48 @@ public class JudgeSignInPanel extends JPanel {
 	private void logon() {
 		removeAll();
 		setLayout(new BorderLayout());
-		
+		displayContestants();
 		repaint();
+	}
+	
+	private void displayContestants() {
+		image = new JLabel();
+		URL icon = HomePage.class.getResource("/libraryIcon.png");
+		ImageIcon frameIcon = new ImageIcon(icon);
+		image.setIcon(frameIcon);
 		
+		ratingLabel = new JLabel("Rating: ");
+		
+		rating = new JTextField(2);
+		
+		northPanel = new JPanel();
+		southPanel = new JPanel();
+		centerPanel = new JPanel();
+		
+		northPanel.add(image);
+		centerPanel.add(ratingLabel);
+		centerPanel.add(rating);
+		
+		add(northPanel, BorderLayout.NORTH);
+		add(centerPanel, BorderLayout.CENTER);
+		add(southPanel, BorderLayout.SOUTH);
+		
+		revalidate();
 	}
 	
 	/**
-	 * 
+	 * This class will be the listener that will check for valid user login information.
 	 * 
 	 * @author Gabriel Houle
 	 */
-	private class JudgeListener implements ActionListener {
+	private class JudgeLoginListener implements ActionListener {
 		
 		@Override
 		public void actionPerformed(ActionEvent theEvent) {
 			if(verifyUser()) {
 				logon();
+			} else {
+				invalid.setText("Invalid Login Information!");
 			}
 		}
 	}
