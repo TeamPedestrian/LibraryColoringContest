@@ -39,7 +39,7 @@ public class ListOfContestants {
 	 * @return True if this email doesn't exist yet. False if this email has already been used.
 	 */
 	public boolean verifyEmail(Contestant theContest) {
-		boolean result = false;
+		boolean result = true;
 		
 		return result;
 	}

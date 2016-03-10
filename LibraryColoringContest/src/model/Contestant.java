@@ -20,6 +20,8 @@ public class Contestant {
 	
 	private String contEmail;
 	
+	private String imgURL;
+	
 	private File contImage;
 	
 	private int imgRating;
@@ -69,6 +71,14 @@ public class Contestant {
 	public void setAgeRange(int[] aR) {
 		contAgeRange[0] = aR[0];
 		contAgeRange[1] = aR[1];
+	}
+	
+	public void setImgURL(String theURL) {
+		imgURL = theURL;
+	}
+	
+	public String getImg() {
+		return imgURL;
 	}
 	
 	public String getEmail() {

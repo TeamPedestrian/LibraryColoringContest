@@ -4,6 +4,8 @@
 
 package model;
 
+import java.util.ArrayList;
+
 public class Judge {
 
 	private final String userName;
@@ -12,13 +14,13 @@ public class Judge {
 	
 	private String name;
 	
-	public ListOfContestants contestantList;
+	public ArrayList<Contestant> contestantList;
 	
 	public Judge(String theUser, String thePass) {
 		userName = theUser;
 		password = thePass;
 		name = "";
-		contestantList = new ListOfContestants();
+		contestantList = new ArrayList<>();
 	}
 	
 	public boolean logOn(String theUser, String thePass) {
