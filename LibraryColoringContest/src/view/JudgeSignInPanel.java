@@ -150,6 +150,10 @@ public class JudgeSignInPanel extends JPanel {
 		test.setImgURL("/libraryIcon.png");
 		
 		listOfJudges.get(0).contestantList.add(test);
+		
+		Contestant test2 = new Contestant();
+		test2.setImgURL("/blueBooks.png");
+		listOfJudges.get(0).contestantList.add(test2);
 	}
 	
 	/**
@@ -253,12 +257,16 @@ public class JudgeSignInPanel extends JPanel {
 	private void displayNextContestant() {
 		if (currentContestantIndex < myContestants.size()) {
 			currentContestant  = myContestants.get(currentContestantIndex);
+			if (currentContestant.getRating() < 0) {
+				
+			}
 			URL icon = HomePage.class.getResource(currentContestant.getImg());
 			ImageIcon frameIcon = new ImageIcon(icon);
 			image.setIcon(frameIcon);
 			currentContestantIndex++;
 		} else {
 			currentContestantIndex = 0;
+			displayNextContestant();
 		}
 		
 		
