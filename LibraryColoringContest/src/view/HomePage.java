@@ -5,6 +5,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -27,8 +28,6 @@ public class HomePage extends JFrame {
 	private JFrame frame;
 	private JPanel center;
 	private JButton myHome;
-	private JPanel judge;
-	private JPanel register;
 	//private JPanel current;
 	
 	public HomePage() {
@@ -45,6 +44,12 @@ public class HomePage extends JFrame {
 		URL icon = HomePage.class.getResource("/libraryIcon.png");
 		ImageIcon frameIcon = new ImageIcon(icon);
 		frame.setIconImage(frameIcon.getImage());
+		
+//		URL image1 = HomePage.class.getResource("/darkBooks2.jpg");
+//		ImageIcon backImage = new ImageIcon(image1);
+//		JLabel backLabel = new JLabel(backImage);
+//		frame.add(backLabel);
+		
 		setupCenter(frame);
 		setupHome(frame);
 		URL image = HomePage.class.getResource("/coloringContest.png");
@@ -55,7 +60,9 @@ public class HomePage extends JFrame {
 	}
 	
 	private void setupCenter(JFrame frame) {
+		center = null;
 		center = new JPanel();
+		center.setBackground(Color.BLACK);
 		center.setLayout(new GridBagLayout());
 		JButton browse = createButton("Browse Design");
 		JButton register = createButton("Register & Upload");
@@ -63,6 +70,7 @@ public class HomePage extends JFrame {
 		center.add(browse);
 		center.add(register);
 		center.add(judge);
+		
 		frame.add(center, BorderLayout.CENTER);
 	}
 
@@ -89,22 +97,24 @@ public class HomePage extends JFrame {
 					//break;
 				case "Register & Upload":
 					myHome.setEnabled(true);
-					register = new RegistrationPanel();
 					frame.getContentPane().remove(center);
-					frame.getContentPane().add(register, BorderLayout.CENTER);
+					center = null;
+					center = new RegistrationPanel();
+					frame.getContentPane().add(center, BorderLayout.CENTER);
 					frame.revalidate();
 					break;
 				case "Return to Contest Home":
 					myHome.setEnabled(false);
-					frame.getContentPane().remove(judge);
+					frame.getContentPane().remove(center);
 					setupCenter(frame);
 					frame.revalidate();
 					break;
 				case "Judge Sign In":
 					myHome.setEnabled(true);
-					judge = new JudgeSignInPanel();
 					frame.getContentPane().remove(center);
-				    frame.getContentPane().add(judge, BorderLayout.CENTER);
+					center = null;
+					center = new JudgeSignInPanel();
+				    frame.getContentPane().add(center, BorderLayout.CENTER);
 					frame.revalidate();
 					break;
 			}

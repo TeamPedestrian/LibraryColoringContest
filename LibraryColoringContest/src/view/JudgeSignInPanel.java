@@ -137,8 +137,11 @@ public class JudgeSignInPanel extends JPanel {
 	private void setup() {
 		
 		southPanel = new JPanel();
+		southPanel.setBackground(Color.BLACK);
 		northPanel = new JPanel();
+		northPanel.setBackground(Color.BLACK);
 		centerPanel = new JPanel(new GridBagLayout());
+		centerPanel.setBackground(Color.BLACK);
 		
 		invalid = new JLabel("");
 		invalid.setForeground(Color.RED);
@@ -234,6 +237,12 @@ public class JudgeSignInPanel extends JPanel {
 		northPanel = new JPanel();
 		southPanel = new JPanel();
 		centerPanel = new JPanel();
+		southPanel = new JPanel();
+		southPanel.setBackground(Color.BLACK);
+		northPanel = new JPanel();
+		northPanel.setBackground(Color.BLACK);
+		centerPanel = new JPanel(new GridBagLayout());
+		centerPanel.setBackground(Color.BLACK);
 		
 		northPanel.add(image);
 		centerPanel.add(ratingLabel);
