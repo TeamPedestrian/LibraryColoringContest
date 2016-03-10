@@ -3,6 +3,7 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -67,6 +68,8 @@ public class RegistrationPanel extends JPanel {
 		GhostText phoneNoGhost = new GhostText(phoneNumberField, "Phone Number");
 		JPanel namePanel = new JPanel();
 		JPanel emailPhoneAgePanel = new JPanel();
+		JPanel northPanel = new JPanel();
+		JPanel centerPanel = new JPanel();
 		emailPhoneAgePanel.setLayout(new GridLayout(0, 3));
 		emailPhoneAgePanel.setSize(new Dimension(400, 25));
 		emailPhoneAgePanel.setMaximumSize(new Dimension(400, 25));
@@ -76,15 +79,24 @@ public class RegistrationPanel extends JPanel {
 		namePanel.add(fNameField);
 		namePanel.add(lNameField);
 		namePanel.add(mInitField);
+		namePanel.setBackground(Color.BLACK);
+		namePanel.setLayout(new GridBagLayout());
 		emailPhoneAgePanel.add(emailField);
 		emailPhoneAgePanel.add(phoneNumberField);
 		emailPhoneAgePanel.add(ageField);
+		emailPhoneAgePanel.setBackground(Color.BLACK);
+		emailPhoneAgePanel.setLayout(new GridBagLayout());
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(uploadButton);
 		buttonPanel.add(registerButton);
-		this.add(namePanel, BorderLayout.NORTH);
-		this.add(emailPhoneAgePanel, BorderLayout.CENTER);	
-		this.add(buttonPanel, BorderLayout.SOUTH);	}
+		northPanel.add(namePanel, BorderLayout.NORTH);
+		northPanel.add(emailPhoneAgePanel, BorderLayout.CENTER);
+		northPanel.setBackground(Color.BLACK);
+		centerPanel.setBackground(Color.BLACK);
+		this.add(northPanel, BorderLayout.NORTH);
+		this.add(centerPanel, BorderLayout.CENTER);
+		this.add(buttonPanel, BorderLayout.SOUTH);	
+		}
 	
 	private void addContestantToList() {
 		Contestant toAdd = new Contestant();
