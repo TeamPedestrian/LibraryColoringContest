@@ -5,10 +5,13 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,9 +27,8 @@ import javax.swing.JPanel;
 public class HomePage extends JFrame {
 	private JFrame frame;
 	private JPanel center;
-	private JPanel judge;
-	private JPanel register;
-	private JPanel current;
+	private JButton myHome;
+	//private JPanel current;
 	
 	public HomePage() {
 		frame = new JFrame("https://Library.gov/Coloring_Contest/home");
@@ -42,6 +44,12 @@ public class HomePage extends JFrame {
 		URL icon = HomePage.class.getResource("/libraryIcon.png");
 		ImageIcon frameIcon = new ImageIcon(icon);
 		frame.setIconImage(frameIcon.getImage());
+		
+//		URL image1 = HomePage.class.getResource("/darkBooks2.jpg");
+//		ImageIcon backImage = new ImageIcon(image1);
+//		JLabel backLabel = new JLabel(backImage);
+//		frame.add(backLabel);
+		
 		setupCenter(frame);
 		setupHome(frame);
 		URL image = HomePage.class.getResource("/coloringContest.png");
@@ -52,13 +60,17 @@ public class HomePage extends JFrame {
 	}
 	
 	private void setupCenter(JFrame frame) {
+		center = null;
 		center = new JPanel();
+		center.setBackground(Color.BLACK);
+		center.setLayout(new GridBagLayout());
 		JButton browse = createButton("Browse Design");
 		JButton register = createButton("Register & Upload");
 		JButton judge = createButton("Judge Sign In");
 		center.add(browse);
 		center.add(register);
 		center.add(judge);
+		
 		frame.add(center, BorderLayout.CENTER);
 	}
 
@@ -69,9 +81,10 @@ public class HomePage extends JFrame {
 	}
 
 	private void setupHome(JFrame frame) {
-		JButton home = createButton("Return to Contest Home");
+		myHome = createButton("Return to Contest Home");
+		myHome.setEnabled(false);
 		JPanel homePanel = new JPanel();
-		homePanel.add(home);
+		homePanel.add(myHome);
 		frame.add(homePanel, BorderLayout.SOUTH);
 	}
 	
@@ -83,20 +96,25 @@ public class HomePage extends JFrame {
 //					BrowseDesign browse = new BrowseDesign();
 					//break;
 				case "Register & Upload":
-					register = new RegistrationPanel();
+					myHome.setEnabled(true);
 					frame.getContentPane().remove(center);
-					frame.getContentPane().add(register, BorderLayout.CENTER);
+					center = null;
+					center = new RegistrationPanel();
+					frame.getContentPane().add(center, BorderLayout.CENTER);
 					frame.revalidate();
 					break;
 				case "Return to Contest Home":
-					frame.getContentPane().remove(judge);
+					myHome.setEnabled(false);
+					frame.getContentPane().remove(center);
 					setupCenter(frame);
 					frame.revalidate();
 					break;
 				case "Judge Sign In":
-					judge = new JudgeSignInPanel();
+					myHome.setEnabled(true);
 					frame.getContentPane().remove(center);
-				    frame.getContentPane().add(judge, BorderLayout.CENTER);
+					center = null;
+					center = new JudgeSignInPanel();
+				    frame.getContentPane().add(center, BorderLayout.CENTER);
 					frame.revalidate();
 					break;
 			}
