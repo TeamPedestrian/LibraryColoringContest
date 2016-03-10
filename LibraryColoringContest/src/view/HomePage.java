@@ -25,6 +25,8 @@ public class HomePage extends JFrame {
 	private JFrame frame;
 	private JPanel center;
 	private JPanel judge;
+	private JPanel register;
+	private JPanel current;
 	
 	public HomePage() {
 		frame = new JFrame("https://Library.gov/Coloring_Contest/home");
@@ -80,9 +82,12 @@ public class HomePage extends JFrame {
 //				case "Browse Design":
 //					BrowseDesign browse = new BrowseDesign();
 					//break;
-//				case "Register & Upload":
-//					Register register = new Register();
-					//break;
+				case "Register & Upload":
+					register = new RegistrationPanel();
+					frame.getContentPane().remove(center);
+					frame.getContentPane().add(register, BorderLayout.CENTER);
+					frame.revalidate();
+					break;
 				case "Return to Contest Home":
 					frame.getContentPane().remove(judge);
 					setupCenter(frame);
