@@ -5,10 +5,12 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,9 +26,10 @@ import javax.swing.JPanel;
 public class HomePage extends JFrame {
 	private JFrame frame;
 	private JPanel center;
+	private JButton myHome;
 	private JPanel judge;
 	private JPanel register;
-	private JPanel current;
+	//private JPanel current;
 	
 	public HomePage() {
 		frame = new JFrame("https://Library.gov/Coloring_Contest/home");
@@ -53,6 +56,7 @@ public class HomePage extends JFrame {
 	
 	private void setupCenter(JFrame frame) {
 		center = new JPanel();
+		center.setLayout(new GridBagLayout());
 		JButton browse = createButton("Browse Design");
 		JButton register = createButton("Register & Upload");
 		JButton judge = createButton("Judge Sign In");
@@ -69,9 +73,10 @@ public class HomePage extends JFrame {
 	}
 
 	private void setupHome(JFrame frame) {
-		JButton home = createButton("Return to Contest Home");
+		myHome = createButton("Return to Contest Home");
+		myHome.setEnabled(false);
 		JPanel homePanel = new JPanel();
-		homePanel.add(home);
+		homePanel.add(myHome);
 		frame.add(homePanel, BorderLayout.SOUTH);
 	}
 	
@@ -83,17 +88,20 @@ public class HomePage extends JFrame {
 //					BrowseDesign browse = new BrowseDesign();
 					//break;
 				case "Register & Upload":
+					myHome.setEnabled(true);
 					register = new RegistrationPanel();
 					frame.getContentPane().remove(center);
 					frame.getContentPane().add(register, BorderLayout.CENTER);
 					frame.revalidate();
 					break;
 				case "Return to Contest Home":
+					myHome.setEnabled(false);
 					frame.getContentPane().remove(judge);
 					setupCenter(frame);
 					frame.revalidate();
 					break;
 				case "Judge Sign In":
+					myHome.setEnabled(true);
 					judge = new JudgeSignInPanel();
 					frame.getContentPane().remove(center);
 				    frame.getContentPane().add(judge, BorderLayout.CENTER);
