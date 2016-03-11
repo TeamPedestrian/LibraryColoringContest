@@ -67,6 +67,9 @@ public class HomePage extends JFrame {
 		JButton browse = createButton("Browse Design");
 		JButton register = createButton("Register & Upload");
 		JButton judge = createButton("Judge Sign In");
+		
+		browse.addActionListener(new BrowseListener());
+		
 		center.add(browse);
 		center.add(register);
 		center.add(judge);
