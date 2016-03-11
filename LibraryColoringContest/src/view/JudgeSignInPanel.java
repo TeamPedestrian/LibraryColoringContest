@@ -116,6 +116,11 @@ public class JudgeSignInPanel extends JPanel {
 	 */
 	private JTextField rating;
 	
+	/**
+	 * Stores the string input by the user.
+	 */
+	private String rateStr;
+	
 	public JudgeSignInPanel() {
 		super();
 		setLayout(new BorderLayout());
@@ -154,6 +159,10 @@ public class JudgeSignInPanel extends JPanel {
 		Contestant test2 = new Contestant();
 		test2.setImgURL("/blueBooks.png");
 		listOfJudges.get(0).contestantList.add(test2);
+		
+		Contestant test3 = new Contestant();
+		test3.setImgURL("/horseBW.png");
+		listOfJudges.get(0).contestantList.add(test3);
 	}
 	
 	/**
@@ -258,12 +267,15 @@ public class JudgeSignInPanel extends JPanel {
 		if (currentContestantIndex < myContestants.size()) {
 			currentContestant  = myContestants.get(currentContestantIndex);
 			if (currentContestant.getRating() < 0) {
-				
+				URL icon = HomePage.class.getResource(currentContestant.getImg());
+				ImageIcon frameIcon = new ImageIcon(icon);
+				image.setIcon(frameIcon);
+				currentContestantIndex++;
+			} else {
+				currentContestantIndex++;
+				displayNextContestant();
 			}
-			URL icon = HomePage.class.getResource(currentContestant.getImg());
-			ImageIcon frameIcon = new ImageIcon(icon);
-			image.setIcon(frameIcon);
-			currentContestantIndex++;
+			
 		} else {
 			currentContestantIndex = 0;
 			displayNextContestant();
@@ -276,9 +288,6 @@ public class JudgeSignInPanel extends JPanel {
 		image = new JLabel();
 		
 		currentContestantIndex = 0;
-//		URL icon = HomePage.class.getResource("/libraryIcon.png");
-//		ImageIcon frameIcon = new ImageIcon(icon);
-//		image.setIcon(frameIcon);
 		
 		next = new JButton("Next");
 		next.addActionListener(new ActionListener() {
@@ -292,6 +301,26 @@ public class JudgeSignInPanel extends JPanel {
 		ratingLabel.setForeground(Color.GRAY);
 		
 		rating = new JTextField(2);
+		
+		rating.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(final KeyEvent theEvent) {
+				if (theEvent.getKeyCode() != KeyEvent.VK_ENTER) {
+					rateStr = rating.getText() + theEvent.getKeyChar();
+				}
+			}
+		});
+		
+		rating.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent theEvent) {
+				rating.setText("");
+//				currentContestant.rateImage(convertStr(rateStr));
+				currentContestant.rateImage(5);
+				myContestants.remove(currentContestant);
+				displayNextContestant();
+			}
+		});
 		
 
 		centerPanel = new JPanel();
@@ -312,6 +341,12 @@ public class JudgeSignInPanel extends JPanel {
 		
 		displayNextContestant();
 		revalidate();
+	}
+	
+	private int convertStr(String theNum) {
+		int result = 0;
+		
+		return result;
 	}
 	
 	/**
