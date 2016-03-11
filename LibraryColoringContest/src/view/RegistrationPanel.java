@@ -11,9 +11,16 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
@@ -24,6 +31,8 @@ import model.ListOfContestants;
 
 public class RegistrationPanel extends JPanel {
 
+	private JFileChooser myChooser = new JFileChooser("./src/images");
+	
 	private JTextField fNameField;
 	
 	private JTextField lNameField;
@@ -45,6 +54,8 @@ public class RegistrationPanel extends JPanel {
 	
 	private ListOfContestants myList;
 	
+	private JLabel image;
+	
 	
 	public RegistrationPanel() {
 		super();
@@ -65,6 +76,7 @@ public class RegistrationPanel extends JPanel {
 		emailField = new JTextField(20);
 		GhostText emailGhost = new GhostText(emailField, "Email");
 		phoneNumberField = new JTextField(12);
+		image = new JLabel();
 		GhostText phoneNoGhost = new GhostText(phoneNumberField, "Phone Number");
 		JPanel namePanel = new JPanel();
 		JPanel emailPhoneAgePanel = new JPanel();
@@ -73,9 +85,11 @@ public class RegistrationPanel extends JPanel {
 		emailPhoneAgePanel.setLayout(new GridLayout(0, 3));
 		emailPhoneAgePanel.setSize(new Dimension(400, 25));
 		emailPhoneAgePanel.setMaximumSize(new Dimension(400, 25));
-		registerButton = new JButton("Register & Upload");
+		registerButton = new JButton("Register & Save");
 		registerButton.addActionListener(new registerButtonAction());
+		registerButton.setEnabled(false);
 		uploadButton = new JButton("Upload Photo");
+		uploadButton.addActionListener(new uploadListener());
 		namePanel.add(fNameField);
 		namePanel.add(lNameField);
 		namePanel.add(mInitField);
@@ -86,6 +100,7 @@ public class RegistrationPanel extends JPanel {
 		emailPhoneAgePanel.add(ageField);
 		emailPhoneAgePanel.setBackground(Color.BLACK);
 		emailPhoneAgePanel.setLayout(new GridBagLayout());
+		centerPanel.add(image);
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(uploadButton);
 		buttonPanel.add(registerButton);
@@ -156,11 +171,50 @@ public class RegistrationPanel extends JPanel {
 		myList.addContestant(toAdd);
 	}
 	
+	/**
+	 * Opens file chooser to preview an image on the panel. 
+	 * @author andyb
+	 *
+	 */
+	private class uploadListener implements ActionListener {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (e.getActionCommand().equals("Upload Photo")) {
+				int result = myChooser.showOpenDialog(null);
+				if (result == JFileChooser.APPROVE_OPTION) {
+					File selected = myChooser.getSelectedFile();
+					try {
+						image.setIcon(new ImageIcon(ImageIO.read(selected)));
+						registerButton.setEnabled(true);
+						
+					} catch (IOException eX) {
+						JOptionPane.showMessageDialog(null, 
+								"Selected file not found!", "Error!",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		}
+	}
+	
 	private class registerButtonAction implements ActionListener {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			addContestantToList();
+			//addContestantToList();
+			removeAll();
+			setLayout(new BorderLayout());
+			JPanel thankPanel = new JPanel();
+			thankPanel.setLayout(new GridBagLayout());
+			JLabel thanks = new JLabel("Thank you for registering!");
+			thanks.setForeground(Color.WHITE);
+			thanks.setFont(thanks.getFont().deriveFont(32.0f));
+			thankPanel.add(thanks);
+			thankPanel.setBackground(Color.BLACK);
+			add(thankPanel);
+			revalidate();
+			repaint();
 		}
 	}
 }
