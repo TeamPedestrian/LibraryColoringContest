@@ -10,12 +10,17 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -28,6 +33,7 @@ public class HomePage extends JFrame {
 	private JFrame frame;
 	private JPanel center;
 	private JButton myHome;
+	private JFileChooser myChooser = new JFileChooser("./src/images");
 	//private JPanel current;
 	
 	public HomePage() {
@@ -43,13 +49,7 @@ public class HomePage extends JFrame {
 	private void setupFrame(JFrame frame) {
 		URL icon = HomePage.class.getResource("/libraryIcon.png");
 		ImageIcon frameIcon = new ImageIcon(icon);
-		frame.setIconImage(frameIcon.getImage());
-		
-//		URL image1 = HomePage.class.getResource("/darkBooks2.jpg");
-//		ImageIcon backImage = new ImageIcon(image1);
-//		JLabel backLabel = new JLabel(backImage);
-//		frame.add(backLabel);
-		
+		frame.setIconImage(frameIcon.getImage());		
 		setupCenter(frame);
 		setupHome(frame);
 		URL image = HomePage.class.getResource("/coloringContest.png");
@@ -68,7 +68,8 @@ public class HomePage extends JFrame {
 		JButton register = createButton("Register & Upload");
 		JButton judge = createButton("Judge Sign In");
 		
-		browse.addActionListener(new BrowseListener());
+		//browse.addActionListener(new BrowseListener());
+		browse.addActionListener(new HomeListener());
 		
 		center.add(browse);
 		center.add(register);
@@ -91,13 +92,20 @@ public class HomePage extends JFrame {
 		frame.add(homePanel, BorderLayout.SOUTH);
 	}
 	
+	private void browseDesigns() {
+		int result = myChooser.showSaveDialog(frame);
+		if (result == JFileChooser.SAVE_DIALOG) {
+			
+		}
+
+	}
 	private class HomeListener implements ActionListener {
 		public void actionPerformed(ActionEvent theEvent) {
 			//System.out.println(theEvent.getActionCommand());
 			switch (theEvent.getActionCommand()) {
-//				case "Browse Design":
-//					BrowseDesign browse = new BrowseDesign();
-					//break;
+				case "Browse Design":
+					browseDesigns();
+					break;
 				case "Register & Upload":
 					myHome.setEnabled(true);
 					frame.getContentPane().remove(center);
