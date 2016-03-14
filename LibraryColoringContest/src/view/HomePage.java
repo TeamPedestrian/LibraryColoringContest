@@ -10,6 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -33,7 +34,13 @@ public class HomePage extends JFrame {
 	private JFrame frame;
 	private JPanel center;
 	private JButton myHome;
-	private JFileChooser myChooser = new JFileChooser("./src/images");
+	private JButton mySave;
+	private JButton myCancel;
+	private JFileChooser homeChooser = new JFileChooser("./src/images");
+	private File myImage;
+	private JLabel myLabel;
+	private JFrame myDisplayFrame;
+	private JPanel myDisplayPanel;
 	//private JPanel current;
 	
 	public HomePage() {
@@ -92,19 +99,72 @@ public class HomePage extends JFrame {
 		frame.add(homePanel, BorderLayout.SOUTH);
 	}
 	
-	private void browseDesigns() {
-		int result = myChooser.showSaveDialog(frame);
-		if (result == JFileChooser.SAVE_DIALOG) {
-			
-		}
+    private void browseDesigns() {
+        int result = homeChooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+            	myImage = homeChooser.getSelectedFile();
+            	myLabel = new JLabel();
+            	myLabel.setIcon(new ImageIcon(ImageIO.read(myImage)));
+            } catch (final IOException exception) {
+            	JOptionPane.showMessageDialog(null, "Selected file not found!", "Error!", 
+            								  JOptionPane.ERROR_MESSAGE);
+            }
+            setUpDisplayFrame();
+        } else {
+        	homeChooser.cancelSelection();
+        	frame.setFocusable(true);
+        }
+    }
+    
+    private void setUpDisplayFrame() {
+    	frame.setFocusable(false);
+    	myDisplayFrame = new JFrame("Image Selection");
+    	//myDisplayFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	myDisplayFrame.setSize(300, 300);
+    	myDisplayFrame.setLocationRelativeTo(null);
+    	myDisplayFrame.setResizable(false);
+    	myDisplayFrame.add(myLabel, BorderLayout.CENTER);
+    	mySave = new JButton("Save Image");
+    	mySave.addActionListener(new HomeListener());
+    	myCancel = new JButton("Cancel");
+    	myCancel.addActionListener(new HomeListener());
+    	myDisplayPanel = new JPanel();
+    	myDisplayPanel.setLayout(new GridBagLayout());
+    	myDisplayPanel.add(mySave);
+    	myDisplayPanel.add(myCancel);
+    	myDisplayFrame.add(myDisplayPanel, BorderLayout.SOUTH);
+    	myDisplayFrame.setSize(300, 300);
+    	myDisplayFrame.setVisible(true);
+    }
+    
+    private void saveDesign() {
+        int result = homeChooser.showSaveDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+//            try {
+//            	String test = myImage.getAbsolutePath();
+//            	ImageIO.write((RenderedImage) myLabel, "jpg", myImage);
+//            } catch (final IOException exception) {
+//                JOptionPane.showMessageDialog(null, "Unable to save image!", 
+//                                              "Alert!", 
+//                                              JOptionPane.ERROR_MESSAGE);
+//            }
+        }
+    }
 
-	}
 	private class HomeListener implements ActionListener {
 		public void actionPerformed(ActionEvent theEvent) {
 			//System.out.println(theEvent.getActionCommand());
 			switch (theEvent.getActionCommand()) {
 				case "Browse Design":
 					browseDesigns();
+					break;
+				case "Save Image":
+					saveDesign();
+					break;
+				case "Cancel":
+					myDisplayFrame.dispose();
+					myLabel = null;
 					break;
 				case "Register & Upload":
 					myHome.setEnabled(true);
@@ -131,5 +191,4 @@ public class HomePage extends JFrame {
 			}
 		}
 	}
-
 }
