@@ -264,24 +264,31 @@ public class JudgeSignInPanel extends JPanel {
 	}
 	
 	private void displayNextContestant() {
-		if (currentContestantIndex < myContestants.size()) {
-			currentContestant  = myContestants.get(currentContestantIndex);
-			if (currentContestant.getRating() < 0) {
-				URL icon = HomePage.class.getResource(currentContestant.getImg());
-				ImageIcon frameIcon = new ImageIcon(icon);
-				image.setIcon(frameIcon);
-				currentContestantIndex++;
+		if (myContestants.size()  > 0) {
+			if (currentContestantIndex < myContestants.size()) {
+				currentContestant  = myContestants.get(currentContestantIndex);
+				if (currentContestant.getRating() < 0) {
+					URL icon = HomePage.class.getResource(currentContestant.getImg());
+					ImageIcon frameIcon = new ImageIcon(icon);
+					image.setIcon(frameIcon);
+					currentContestantIndex++;
+				} else {
+					currentContestantIndex++;
+					displayNextContestant();
+				}
+				
 			} else {
-				currentContestantIndex++;
+				currentContestantIndex = 0;
 				displayNextContestant();
 			}
-			
 		} else {
-			currentContestantIndex = 0;
-			displayNextContestant();
+			image.setIcon(null);
+			next.setEnabled(false);
+			ratingLabel.setVisible(false);
+			rating.setVisible(false);
+			image.setText("No more contestants!");
+			image.setForeground(Color.RED);
 		}
-		
-		
 	}
 	
 	private void displayContestantsFields() {
