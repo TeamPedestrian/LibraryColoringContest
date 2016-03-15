@@ -6,6 +6,11 @@ package model;
 
 import java.io.File;
 
+/**
+ * Holds all the fields needed for a Contestant object. 
+ * @author Andy Bleich
+ *
+ */
 public class Contestant {
 
 	private String contFName;
@@ -26,6 +31,15 @@ public class Contestant {
 	
 	private int imgRating;
 	
+	/**
+	 * Constructor to populate a Contestant if all fields are given. 
+	 * @param fName First name
+	 * @param lName Last name
+	 * @param mInit Middle initial
+	 * @param ageRange Age range for the contestant
+	 * @param phoneNo Phone Number
+	 * @param email Contestant email 
+	 */
 	public Contestant(String fName, String lName, String mInit, int[] ageRange,
 						String phoneNo, String email) {
 		contFName = fName;
@@ -39,6 +53,9 @@ public class Contestant {
 		
 	}
 	
+	/**
+	 * Blank constructor to create a blank contestant. 
+	 */
 	public Contestant() {
 		contFName = null;
 		contLName = null;
@@ -47,7 +64,7 @@ public class Contestant {
 		contEmail = null;
 		imgRating = -1;
 	}
-	
+	//Getters and setters for each field. 
 	public void setFName(String fName) {
 		contFName = fName;
 	}
@@ -115,6 +132,26 @@ public class Contestant {
 	
 	public String getPhoneNo() {
 		return contPhoneNo;
+	}
+	
+	public String getFName() {
+		return contFName;
+	}
+	
+	public String getLName() {
+		return contLName;
+	}
+	
+	public String getMInit() {
+		return contMInit;
+	}
+	
+	public int getLowerAge() {
+		return contAgeRange[0];
+	}
+	
+	public int getUpperAge() {
+		return contAgeRange[1];
 	}
 	
 }

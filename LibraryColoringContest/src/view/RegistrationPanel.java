@@ -29,8 +29,15 @@ import javax.swing.event.DocumentListener;
 import model.Contestant;
 import model.ListOfContestants;
 
+/**
+ * GUI class for the Registration panel, used by those looking to register 
+ * for the contest and upload a photo. 
+ * @author Andy Bleich
+ *
+ */
 public class RegistrationPanel extends JPanel {
 
+	/** File Chooser used multiple times in the panel*/
 	private JFileChooser myChooser = new JFileChooser("./src/images");
 	
 	private JTextField fNameField;
@@ -56,7 +63,12 @@ public class RegistrationPanel extends JPanel {
 	
 	private JLabel image;
 	
+	private String filePath;
 	
+	
+	/**
+	 * Creates a new Registration panel. 
+	 */
 	public RegistrationPanel() {
 		super();
 		this.setLayout(new BorderLayout());
@@ -64,6 +76,10 @@ public class RegistrationPanel extends JPanel {
 		buildPanel();
 	}
 	
+	/**
+	 * Builds each part of the panel. 
+	 */
+	// Sorry about the messy code
 	@SuppressWarnings("unused")
 	private void buildPanel() {
 		ageField = new JComboBox(ageRanges);
@@ -113,6 +129,9 @@ public class RegistrationPanel extends JPanel {
 		this.add(buttonPanel, BorderLayout.SOUTH);	
 		}
 	
+	/**
+	 * Adds a contestant to the list once all fields are filled in. 
+	 */
 	private void addContestantToList() {
 		Contestant toAdd = new Contestant();
 		toAdd.setFName(fNameField.getText());
@@ -122,6 +141,7 @@ public class RegistrationPanel extends JPanel {
 		}
 		toAdd.setPhoneNo(phoneNumberField.getText());
 		toAdd.setEmail(emailField.getText());
+		toAdd.setImgURL(filePath);
 		int[] a = new int[2];
 		switch (ageField.getSelectedIndex()) {
 			case 0:
@@ -173,7 +193,7 @@ public class RegistrationPanel extends JPanel {
 	
 	/**
 	 * Opens file chooser to preview an image on the panel. 
-	 * @author andyb
+	 * @author Andy Bleich
 	 *
 	 */
 	private class uploadListener implements ActionListener {
@@ -186,6 +206,7 @@ public class RegistrationPanel extends JPanel {
 					File selected = myChooser.getSelectedFile();
 					try {
 						image.setIcon(new ImageIcon(ImageIO.read(selected)));
+						filePath = selected.getPath();
 						registerButton.setEnabled(true);
 						
 					} catch (IOException eX) {
@@ -198,11 +219,16 @@ public class RegistrationPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Registers the user to the list of Contestants. 
+	 * @author Andy Bleich
+	 *
+	 */
 	private class registerButtonAction implements ActionListener {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//addContestantToList();
+			addContestantToList();
 			removeAll();
 			setLayout(new BorderLayout());
 			JPanel thankPanel = new JPanel();
