@@ -43,4 +43,8 @@ public class ListOfContestants {
 		
 		return result;
 	}
+	
+	public List<Contestant> getList() {
+		return contestants;
+	}
 }
