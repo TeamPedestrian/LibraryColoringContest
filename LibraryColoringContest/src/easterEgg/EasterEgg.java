@@ -36,7 +36,7 @@ public class EasterEgg {
 		easterEggFrame.add(buttonPanel, BorderLayout.SOUTH);
 		easterEggFrame.setSize(1100, 500);
 		easterEggFrame.setLocationRelativeTo(null);
-		easterEggFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//easterEggFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		easterEggFrame.setResizable(false);
 		easterEggFrame.setVisible(true);
 		

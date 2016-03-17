@@ -10,6 +10,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +25,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import easterEgg.EasterEgg;
 
 /**
  * 
@@ -32,6 +37,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class HomePage extends JFrame {
 	private JFrame frame;
+	private String myKeyString = "";
 	private JPanel center;
 	private JButton myHome;
 	private JButton mySave;
@@ -47,8 +53,22 @@ public class HomePage extends JFrame {
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.setSize(952, 650);
 	    frame.setLocationRelativeTo(null);
-	    frame.setResizable(false);
+	    frame.setResizable(false);		
 		setupFrame(frame);
+	    frame.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(final KeyEvent theEvent) {
+				if (theEvent.getKeyCode() != KeyEvent.VK_ENTER  && theEvent.getKeyCode() != KeyEvent.VK_SHIFT) {
+					myKeyString += theEvent.getKeyChar();
+				} else if (theEvent.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (myKeyString.contentEquals("Team Pedestrian")) {
+						runClient();
+						myKeyString = "";
+					}
+				}
+			}
+		});
+	    frame.setFocusable(true);
 		frame.setVisible(true);
 	}
 	
@@ -185,5 +205,15 @@ public class HomePage extends JFrame {
 					break;
 			}
 		}
+	}
+	
+	private static void runClient() {
+	    SwingUtilities.invokeLater(new Runnable() {
+	        @Override
+	        public void run() {
+	            String[] args1={"10"};
+	            EasterEgg.main(args1);
+	        }
+	    });
 	}
 }
