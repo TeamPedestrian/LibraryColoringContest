@@ -10,7 +10,9 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.RenderedImage;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -23,6 +25,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import easterEgg.EasterEgg;
 
 /**
  * 
@@ -32,6 +37,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class HomePage extends JFrame {
 	private JFrame frame;
+	private String myKeyString = "";
 	private JPanel center;
 	private JButton myHome;
 	private JButton mySave;
@@ -41,15 +47,28 @@ public class HomePage extends JFrame {
 	private JLabel myLabel;
 	private JFrame myDisplayFrame;
 	private JPanel myDisplayPanel;
-	//private JPanel current;
-	
+
 	public HomePage() {
 		frame = new JFrame("https://Library.gov/Coloring_Contest/home");
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.setSize(952, 650);
 	    frame.setLocationRelativeTo(null);
-	    frame.setResizable(false);
+	    frame.setResizable(false);		
 		setupFrame(frame);
+	    frame.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(final KeyEvent theEvent) {
+				if (theEvent.getKeyCode() != KeyEvent.VK_ENTER  && theEvent.getKeyCode() != KeyEvent.VK_SHIFT) {
+					myKeyString += theEvent.getKeyChar();
+				} else if (theEvent.getKeyCode() == KeyEvent.VK_ENTER) {
+					if (myKeyString.contentEquals("Team Pedestrian")) {
+						runClient();
+						myKeyString = "";
+					}
+				}
+			}
+		});
+	    frame.setFocusable(true);
 		frame.setVisible(true);
 	}
 	
@@ -71,17 +90,12 @@ public class HomePage extends JFrame {
 		center = new JPanel();
 		center.setBackground(Color.BLACK);
 		center.setLayout(new GridBagLayout());
-		JButton browse = createButton("Browse Design");
+		JButton browse = createButton("Browse Designs");
 		JButton register = createButton("Register & Upload");
 		JButton judge = createButton("Judge Sign In");
-		
-		//browse.addActionListener(new BrowseListener());
-		browse.addActionListener(new HomeListener());
-		
 		center.add(browse);
 		center.add(register);
 		center.add(judge);
-		
 		frame.add(center, BorderLayout.CENTER);
 	}
 
@@ -111,56 +125,57 @@ public class HomePage extends JFrame {
             								  JOptionPane.ERROR_MESSAGE);
             }
             setUpDisplayFrame();
-        } else {
-        	homeChooser.cancelSelection();
-        	frame.setFocusable(true);
-        }
+        } 
     }
     
     private void setUpDisplayFrame() {
     	frame.setFocusable(false);
-    	myDisplayFrame = new JFrame("Image Selection");
-    	//myDisplayFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	myDisplayFrame.setSize(300, 300);
+    	myDisplayFrame = new JFrame();
+		URL icon = HomePage.class.getResource("/blueBooks.png");
+		ImageIcon frameIcon = new ImageIcon(icon);
+		myDisplayFrame.setIconImage(frameIcon.getImage());	
+    	JPanel myImagePanel = new JPanel();
+    	myImagePanel.add(myLabel);
+    	myDisplayFrame.setSize(400, 400);
     	myDisplayFrame.setLocationRelativeTo(null);
     	myDisplayFrame.setResizable(false);
-    	myDisplayFrame.add(myLabel, BorderLayout.CENTER);
-    	mySave = new JButton("Save Image");
-    	mySave.addActionListener(new HomeListener());
-    	myCancel = new JButton("Cancel");
-    	myCancel.addActionListener(new HomeListener());
+    	myDisplayFrame.add(myImagePanel, BorderLayout.CENTER);
+    	mySave = createButton("Save Image");
+    	myCancel = createButton("Cancel");
     	myDisplayPanel = new JPanel();
     	myDisplayPanel.setLayout(new GridBagLayout());
     	myDisplayPanel.add(mySave);
     	myDisplayPanel.add(myCancel);
     	myDisplayFrame.add(myDisplayPanel, BorderLayout.SOUTH);
-    	myDisplayFrame.setSize(300, 300);
+    	myDisplayFrame.pack();
     	myDisplayFrame.setVisible(true);
     }
     
     private void saveDesign() {
-        int result = homeChooser.showSaveDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-//            try {
-//            	String test = myImage.getAbsolutePath();
-//            	ImageIO.write((RenderedImage) myLabel, "jpg", myImage);
-//            } catch (final IOException exception) {
-//                JOptionPane.showMessageDialog(null, "Unable to save image!", 
-//                                              "Alert!", 
-//                                              JOptionPane.ERROR_MESSAGE);
-//            }
-        }
+    	int result = homeChooser.showSaveDialog(null);
+    	if(result == JFileChooser.APPROVE_OPTION) {
+    		File chosenFile = homeChooser.getSelectedFile();
+    		BufferedImage image = null;
+			try {
+				image = ImageIO.read(myImage);
+				ImageIO.write(image, "png", new File(chosenFile.getAbsolutePath()));
+				JOptionPane.showMessageDialog(null, "Image Saved!");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+    	}
     }
 
 	private class HomeListener implements ActionListener {
 		public void actionPerformed(ActionEvent theEvent) {
-			//System.out.println(theEvent.getActionCommand());
 			switch (theEvent.getActionCommand()) {
-				case "Browse Design":
+				case "Browse Designs":
 					browseDesigns();
 					break;
 				case "Save Image":
 					saveDesign();
+					myDisplayFrame.dispose();
+					frame.setFocusable(true);
 					break;
 				case "Cancel":
 					myDisplayFrame.dispose();
@@ -190,5 +205,15 @@ public class HomePage extends JFrame {
 					break;
 			}
 		}
+	}
+	
+	private static void runClient() {
+	    SwingUtilities.invokeLater(new Runnable() {
+	        @Override
+	        public void run() {
+	            String[] args1={"10"};
+	            EasterEgg.main(args1);
+	        }
+	    });
 	}
 }
