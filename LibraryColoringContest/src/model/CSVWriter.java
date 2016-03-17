@@ -40,38 +40,36 @@ public class CSVWriter {
 		try {
 			//initialize
 			w = new FileWriter(filePath);
-			w.append(FILEHEADER);
-			w.append(NEWLINE);
+			w.write(FILEHEADER);
+			w.write(NEWLINE);
 			
 			//write to file for each contestant
 			
 			for (Contestant c : myList.getList()) {
-				w.append(c.getFName());
-				w.append(DELIMITER);
-				w.append(c.getLName());
-				w.append(DELIMITER);
+				w.write(c.getFName());
+				w.write(DELIMITER);
+				w.write(c.getLName());
+				w.write(DELIMITER);
 				String mInit = c.getMInit();
 				//Will append mInit if there, and a blank otherwise
 				if (mInit == null) {
-					w.append("");
+					w.write("");
 				} else {
-					w.append(mInit);
+					w.write(mInit);
 				}
-				w.append(DELIMITER);
-				w.append(c.getLowerAge() +"-" + c.getUpperAge());
-				w.append(DELIMITER);
-				w.append(c.getPhoneNo());
-				w.append(DELIMITER);
-				w.append(c.getEmail());
-				w.append(DELIMITER);
-				w.append(c.getImg());
-				w.append(DELIMITER);
-				w.append("" + c.getRating());
-				w.append(NEWLINE);
+				w.write(DELIMITER);
+				w.write(c.getLowerAge() +"-" + c.getUpperAge());
+				w.write(DELIMITER);
+				w.write(c.getPhoneNo());
+				w.write(DELIMITER);
+				w.write(c.getEmail());
+				w.write(DELIMITER);
+				w.write(c.getImg());
+				w.write(DELIMITER);
+				w.write("" + c.getRating());
+				w.write(NEWLINE);
 			}
-			
-			System.out.println("CSV printed!");
-			
+						
 		} catch (Exception e) {
 			System.out.println("Error in writing!");
 			e.printStackTrace();
@@ -83,7 +81,5 @@ public class CSVWriter {
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	
+	}	
 }
