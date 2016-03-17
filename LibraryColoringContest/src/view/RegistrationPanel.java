@@ -26,6 +26,8 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import model.CSVReader;
+import model.CSVWriter;
 import model.Contestant;
 import model.ListOfContestants;
 
@@ -74,6 +76,7 @@ public class RegistrationPanel extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.setSize(800, 800);
 		buildPanel();
+		myList = CSVReader.readCSV("contestants.csv");
 	}
 	
 	/**
@@ -132,7 +135,7 @@ public class RegistrationPanel extends JPanel {
 	/**
 	 * Adds a contestant to the list once all fields are filled in. 
 	 */
-	private void addContestantToList() {
+	private boolean addContestantToList() {
 		Contestant toAdd = new Contestant();
 		toAdd.setFName(fNameField.getText());
 		toAdd.setLName(lNameField.getText());
@@ -188,7 +191,9 @@ public class RegistrationPanel extends JPanel {
 				toAdd.setAgeRange(a);
 				break;
 		}
-		myList.addContestant(toAdd);
+		boolean result = myList.addContestant(toAdd);
+		
+		return result;
 	}
 	
 	/**
@@ -228,19 +233,28 @@ public class RegistrationPanel extends JPanel {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			addContestantToList();
-			removeAll();
-			setLayout(new BorderLayout());
-			JPanel thankPanel = new JPanel();
-			thankPanel.setLayout(new GridBagLayout());
-			JLabel thanks = new JLabel("Thank you for registering!");
-			thanks.setForeground(Color.WHITE);
-			thanks.setFont(thanks.getFont().deriveFont(32.0f));
-			thankPanel.add(thanks);
-			thankPanel.setBackground(Color.BLACK);
-			add(thankPanel);
-			revalidate();
-			repaint();
+			
+			if (addContestantToList()) {
+				CSVWriter output = new CSVWriter(myList);
+				
+				output.writeToFile("contestants.csv");
+				
+				removeAll();
+				setLayout(new BorderLayout());
+				JPanel thankPanel = new JPanel();
+				thankPanel.setLayout(new GridBagLayout());
+				JLabel thanks = new JLabel("Thank you for registering!");
+				thanks.setForeground(Color.WHITE);
+				thanks.setFont(thanks.getFont().deriveFont(32.0f));
+				thankPanel.add(thanks);
+				thankPanel.setBackground(Color.BLACK);
+				add(thankPanel);
+				revalidate();
+				repaint();
+			} else {
+				image.setText("Email address already registered!");
+				image.setForeground(Color.RED);
+			}
 		}
 	}
 }

@@ -15,7 +15,7 @@ public class CSVReader {
 	
 	private static final String DELIMITER = ",";
 	
-	private ListOfContestants myList;
+	private static ListOfContestants myList;
 	
 	//Statics to get values from split array
 	private static final int FNAME_IDX = 0;
@@ -28,21 +28,21 @@ public class CSVReader {
 	private static final int IMG_RATING_IDX = 7;
 	
 	/**
-	 * Constructor for the CSV reader. Populates a list of 
-	 * Contestants. 
+	 * private constructor to prevent initialization.
+	 * 
 	 * @param theList List of Contestants to be populated. 
 	 */
-	public CSVReader (ListOfContestants theList) {
-		myList = theList;
+	private CSVReader () {
 	}
 	
 	/**
 	 * Reads in from CSV file given in filePath. 
 	 * @param filePath Path to file being read. 
 	 */
-	public void readCSV(String filePath) {
+	public static ListOfContestants readCSV(String filePath) {
 		
 		BufferedReader r = null;
+		myList = new ListOfContestants();
 		
 		try {
 			
@@ -76,10 +76,8 @@ public class CSVReader {
 					myList.addContestant(c);
 				}
 			}
-			System.out.println("CSV read in");
 		} catch (Exception e) {
-			System.out.println("Error in CSV read!");
-			e.printStackTrace();
+
 		} finally {
 			try {
 				r.close();
@@ -87,6 +85,8 @@ public class CSVReader {
 				e.printStackTrace();
 			}
 		}
+		
+		return myList;
 	}
 
 }

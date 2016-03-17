@@ -41,6 +41,12 @@ public class ListOfContestants {
 	public boolean verifyEmail(Contestant theContest) {
 		boolean result = true;
 		
+		for(Contestant c : contestants) {
+			if (theContest.getEmail().equals(c.getEmail())) {
+				result = false;
+			}
+		}
+		
 		return result;
 	}
 	
