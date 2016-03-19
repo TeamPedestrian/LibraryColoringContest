@@ -7,6 +7,11 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author Gabriel Houle
+ *
+ */
 public class ListOfContestants {
 
 	private List<Contestant> contestants;

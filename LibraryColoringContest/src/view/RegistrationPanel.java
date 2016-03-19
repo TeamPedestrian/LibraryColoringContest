@@ -7,10 +7,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -23,9 +19,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-
 import model.CSVReader;
 import model.CSVWriter;
 import model.Contestant;
@@ -37,6 +30,7 @@ import model.ListOfContestants;
  * @author Andy Bleich
  *
  */
+@SuppressWarnings("serial")
 public class RegistrationPanel extends JPanel {
 
 	/** File Chooser used multiple times in the panel*/
@@ -55,6 +49,7 @@ public class RegistrationPanel extends JPanel {
 	private final String[] ageRanges = {"Age", "0 - 3", "4 - 7", "8 - 11", "12 - 15", 
 										"16 - 18", "19 - 24", "25 - 30", "30+" };
 	
+	@SuppressWarnings("rawtypes")
 	private JComboBox ageField;
 	
 	private JButton uploadButton;
@@ -87,7 +82,7 @@ public class RegistrationPanel extends JPanel {
 	 * Builds each part of the panel. 
 	 */
 	// Sorry about the messy code
-	@SuppressWarnings("unused")
+	@SuppressWarnings({ "unused", "unchecked", "rawtypes" })
 	private void buildPanel() {
 		ageField = new JComboBox(ageRanges);
 		fNameField = new JTextField(20);

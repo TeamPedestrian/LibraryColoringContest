@@ -1,7 +1,5 @@
 package view;
 
-import java.awt.Menu;
-import java.awt.MenuBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,6 +10,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
+/**
+ * 
+ * @author Yikalo  (class not used).
+ *
+ */
 public class BrowseListener implements ActionListener {
      JButton button ;
         JLabel label;
