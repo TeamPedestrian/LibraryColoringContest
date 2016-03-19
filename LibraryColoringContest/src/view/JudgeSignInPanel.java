@@ -268,8 +268,7 @@ public class JudgeSignInPanel extends JPanel {
 			if (currentContestantIndex < myContestants.size()) {
 				currentContestant  = myContestants.get(currentContestantIndex);
 				if (currentContestant.getRating() < 0) {
-//					URL icon = HomePage.class.getResource(currentContestant.getImg());
-//					File icon = new File(currentContestant.getImg());
+
 					ImageIcon frameIcon = new ImageIcon(currentContestant.getImg());
 					image.setIcon(frameIcon);
 					currentContestantIndex++;
@@ -324,10 +323,7 @@ public class JudgeSignInPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent theEvent) {
 				rating.setText("");
-				currentContestant.rateImage(convertStr(rateStr));
-				
-				System.out.println(convertStr(rateStr));
-				
+				currentContestant.rateImage(convertStr(rateStr));				
 				ListOfContestants update = new ListOfContestants(myContestants);
 				CSVWriter write = new CSVWriter(update);
 				write.writeToFile("contestants.csv");
@@ -336,7 +332,6 @@ public class JudgeSignInPanel extends JPanel {
 			}
 		});
 		
-
 		centerPanel = new JPanel();
 		southPanel.setBackground(Color.BLACK);
 		northPanel = new JPanel();
