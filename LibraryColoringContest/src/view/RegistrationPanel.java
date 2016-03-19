@@ -76,7 +76,11 @@ public class RegistrationPanel extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.setSize(800, 800);
 		buildPanel();
-		myList = CSVReader.readCSV("contestants.csv");
+		try {
+			myList = CSVReader.readCSV("contestants.csv");
+		} catch (Exception e) {
+			myList = new ListOfContestants();
+		}
 	}
 	
 	/**
