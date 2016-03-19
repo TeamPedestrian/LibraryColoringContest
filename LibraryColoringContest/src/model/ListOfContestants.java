@@ -15,6 +15,10 @@ public class ListOfContestants {
 		contestants = new ArrayList<Contestant>();
 	}
 	
+	public ListOfContestants(List<Contestant> theList) {
+		contestants = theList;
+	}
+	
 	/**
 	 * This method will return true if the person was successfully added, but false
 	 * if they already exist in the list.
