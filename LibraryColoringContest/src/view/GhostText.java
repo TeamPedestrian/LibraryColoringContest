@@ -19,16 +19,36 @@ import javax.swing.event.DocumentListener;
  */
 public class GhostText implements FocusListener, DocumentListener, PropertyChangeListener {
 	 
+	/**
+	 * text field for ghost text.
+	 */
 	private JTextField myTextField;
 	
+	/**
+	 * Check if a text field is empty.
+	 */
 	private boolean isEmpty;
 	
+	/**
+	 * Color of the ghost background
+	 */
 	private Color myGhostColor;
 	
+	/**
+	 * Ghost text color.
+	 */
 	private Color myForegroundColor;
 	
+	/**
+	 * Store the ghost text.
+	 */
 	private final String myGhostText;
 	
+	/**
+	 * Constructor for ghost text
+	 * @param theTextField Where to place the ghost text
+	 * @param theGhostText What string to display as ghost text.
+	 */
 	public GhostText (final JTextField theTextField, final String theGhostText) {
 		super();
 		myTextField = theTextField;
@@ -43,16 +63,25 @@ public class GhostText implements FocusListener, DocumentListener, PropertyChang
 		
 	}
 	
+	/**
+	 * Listener for setting text.
+	 */
 	private void registerListeners() {
 		myTextField.getDocument().addDocumentListener(this);
 		myTextField.addPropertyChangeListener("foreground", this);
 	}
 	
+	/**
+	 * remove a listener.
+	 */
 	private void unregisterListeners() {
 		myTextField.getDocument().removeDocumentListener(this);
 		myTextField.removePropertyChangeListener("foreground", this);
 	}
 	
+	/**
+	 * update the text field of ghost text.
+	 */
 	private void updateState() {
 		isEmpty = myTextField.getText().length() == 0;
 		myForegroundColor = myTextField.getForeground();
