@@ -34,7 +34,7 @@ import model.ListOfContestants;
 public class RegistrationPanel extends JPanel {
 
 	/** File Chooser used multiple times in the panel*/
-	private JFileChooser myChooser = new JFileChooser("./src/images");
+	private JFileChooser myChooser = new JFileChooser("./images");
 	
 	private JTextField fNameField;
 	

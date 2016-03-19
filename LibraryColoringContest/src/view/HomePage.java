@@ -73,7 +73,7 @@ public class HomePage extends JFrame {
 	/**
 	 * File chooser to be used for downloaded an image. 
 	 */
-	private JFileChooser homeChooser = new JFileChooser("./src/images");
+	private JFileChooser homeChooser = new JFileChooser("images");
 	
 	/**
 	 * File for retrieving an image.
@@ -194,9 +194,29 @@ public class HomePage extends JFrame {
 	 * allowing the user to save it if they choose. 
 	 */
     private void browseDesigns() {
-        int result = homeChooser.showOpenDialog(null);
+        
+        URL images = HomePage.class.getResource("./images");
+        int result = 0;
+        
+        try {
+            File path = new File(images.toURI());
+            homeChooser = new JFileChooser(path);
+            
+
+
+        } catch (Exception e) {
+        	
+        }
+        
+        result = homeChooser.showOpenDialog(null);
+
+        
         if (result == JFileChooser.APPROVE_OPTION) {
             try {
+            	
+//				URL icon = HomePage.class.getResource(currentContestant.getImg());
+//				File icon = new File(currentContestant.getImg());
+            	
             	myImage = homeChooser.getSelectedFile();
             	myLabel = new JLabel();
             	myLabel.setIcon(new ImageIcon(ImageIO.read(myImage)));
