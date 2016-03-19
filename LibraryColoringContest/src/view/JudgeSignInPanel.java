@@ -11,8 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +21,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import model.CSVReader;
+import model.CSVWriter;
 import model.Contestant;
 import model.Judge;
+import model.ListOfContestants;
 
 /**
  * 
@@ -123,8 +123,11 @@ public class JudgeSignInPanel extends JPanel {
 	 */
 	private String rateStr;
 	
+	private int rateCount;
+	
 	public JudgeSignInPanel() {
 		super();
+		rateCount = 0;
 		setLayout(new BorderLayout());
 		listOfJudges = loadJudges();
 		loadContestants();
@@ -153,18 +156,6 @@ public class JudgeSignInPanel extends JPanel {
 	 * assign them to the judges.
 	 */
 	private void loadContestants() {
-//		Contestant test = new Contestant();
-//		test.setImgURL("/libraryIcon.png");
-//		
-//		listOfJudges.get(0).contestantList.add(test);
-//		
-//		Contestant test2 = new Contestant();
-//		test2.setImgURL("/blueBooks.png");
-//		listOfJudges.get(0).contestantList.add(test2);
-//		
-//		Contestant test3 = new Contestant();
-//		test3.setImgURL("/horseBW.png");
-//		listOfJudges.get(0).contestantList.add(test3);
 		
 		try {
 			listOfJudges.get(0).contestantList = 
@@ -273,7 +264,7 @@ public class JudgeSignInPanel extends JPanel {
 	}
 	
 	private void displayNextContestant() {
-		if (myContestants.size()  > 0) {
+		if (myContestants.size()  > 0 && rateCount < myContestants.size()) {
 			if (currentContestantIndex < myContestants.size()) {
 				currentContestant  = myContestants.get(currentContestantIndex);
 				if (currentContestant.getRating() < 0) {
@@ -283,6 +274,7 @@ public class JudgeSignInPanel extends JPanel {
 					image.setIcon(frameIcon);
 					currentContestantIndex++;
 				} else {
+					rateCount++;
 					currentContestantIndex++;
 					displayNextContestant();
 				}
@@ -315,7 +307,7 @@ public class JudgeSignInPanel extends JPanel {
 		});
 		
 		ratingLabel = new JLabel("Rating: ");
-		ratingLabel.setForeground(Color.GRAY);
+		ratingLabel.setForeground(Color.WHITE);
 		
 		rating = new JTextField(2);
 		
@@ -332,9 +324,14 @@ public class JudgeSignInPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent theEvent) {
 				rating.setText("");
-//				currentContestant.rateImage(convertStr(rateStr));
-				currentContestant.rateImage(5);
-				myContestants.remove(currentContestant);
+				currentContestant.rateImage(convertStr(rateStr));
+				
+				System.out.println(convertStr(rateStr));
+				
+				ListOfContestants update = new ListOfContestants(myContestants);
+				CSVWriter write = new CSVWriter(update);
+				write.writeToFile("contestants.csv");
+				rateCount++;
 				displayNextContestant();
 			}
 		});
@@ -362,6 +359,14 @@ public class JudgeSignInPanel extends JPanel {
 	
 	private int convertStr(String theNum) {
 		int result = 0;
+		
+		for (char c : theNum.toCharArray()) {
+			if (c < 58 || c > 47) {
+				result += c - '0';
+				result *= 10;
+			}
+		}
+		result /= 10;
 		
 		return result;
 	}
